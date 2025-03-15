@@ -2,7 +2,7 @@
 {
     public class AIChatResponse
     {
-        public List<ChatItem> history;
-        public string Response;
+        public List<ChatItem> history { get; set; }
+        public string Response { get; set; }
     }
 }

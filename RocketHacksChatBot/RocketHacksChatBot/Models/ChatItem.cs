@@ -2,7 +2,7 @@
 {
     public class ChatItem
     {
-        public string party;
-        public string message;
+        public string party { get; set; }
+        public string message { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace RocketHacksChatBot.Services
             ChatItem fromAI = new ChatItem
             {
                 party = "AI",
-                message = request.message,
+                message = message,
 
             };
 
