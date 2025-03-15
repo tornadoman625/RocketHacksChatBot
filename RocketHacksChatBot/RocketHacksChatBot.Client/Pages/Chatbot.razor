@@ -1,0 +1,18 @@
+﻿@page "/"
+@rendermode InteractiveAuto
+
+
+<h1> Hellow World</h1>
+<button @onclick="IncrementCount">
+    Update heading
+</button>
+@currentCount
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
