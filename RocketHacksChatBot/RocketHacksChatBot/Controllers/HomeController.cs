@@ -10,20 +10,11 @@ namespace RocketHacksChatBot.Controllers
 [Route("api/[controller]")]
     public class testController : Controller
     {
-        [HttpGet("test")]
-        public async Task<AIChatResponse> test()
+        [HttpPost("submitPrompt")]
+        public async Task<AIChatResponse> submitPrompt(AIChatRequest request)
         {
             CallOllama callOllama = new CallOllama();
-
-            AIChatRequest chatRequest = new AIChatRequest
-            {
-                history = null,
-                message = "When was the University of Toledo Founded?"
-            };
-            
-            
-
-            var response = await callOllama.AIChat(chatRequest);
+            var response = await callOllama.AIChat(request);
             return response;
         }
     }

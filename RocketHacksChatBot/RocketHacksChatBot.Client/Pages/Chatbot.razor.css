@@ -1,0 +1,25 @@
+﻿.chat-window {
+    height: 95vh; /* Make the chat window take up the full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages {
+    flex-grow: 1; /* Allow the message area to grow and take up available space */
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.chat-input {
+    padding: 10px;
+}
+
+.card {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body {
+    flex-grow: 1;
+}

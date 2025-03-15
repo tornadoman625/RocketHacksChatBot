@@ -1,18 +1,90 @@
 ﻿@page "/"
 @rendermode InteractiveAuto
+@using RocketHacksChatBot.Client.Services
+@using RocketHacksChatBot.Client.Models
+<div class="chat-window">
+    <div class="card">
+        <div class="card-header">
+            Chat
+        </div>
+        <div class="card-body chat-messages">
+            @((MarkupString)(chatLog))
 
+            @if (isWaiting)
+            {
+                <div class="mb-2">
+                    <div class="spinner-border text-primary" role="status">
+                        
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-footer chat-input">
+            <div class="input-group">
+                <input @bind="message" type="text" disabled="@isWaiting" class="form-control" placeholder="Type your message...">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" @onclick="sendChat" type="button">Send</button>
+                </div>
 
-<h1> Hellow World</h1>
-<button @onclick="IncrementCount">
-    Update heading
-</button>
-@currentCount
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @code {
-    private int currentCount = 0;
+    private String? chatLog;
+    private useAPI api = new useAPI();
+    private List<ChatItem> history;
+    private String? message;
+    private Boolean isWaiting;
+    private async Task sendChat()
 
-    private void IncrementCount()
     {
-        currentCount++;
+        if(message is null)
+        {
+            return;
+        }
+        var testQuery = new AIChatRequest
+        {
+            history = null,
+            message = this.message,
+
+        };
+        isWaiting = true;
+        message = "please wait...";
+        populateChats("User", testQuery.message);
+
+        var response = await api.makeAPICall(testQuery);
+
+        history = response.history;
+        isWaiting = false;
+        message = null;
+        populateChats("AI", response.Response);
+
     }
-}
+    private void populateChats(String party, String message)
+    {
+        String htmlForChat = "";
+
+            htmlForChat += "<div class=\"mb - 2\">";
+            htmlForChat += "<strong>";
+            switch(party)
+            {
+                case "AI":
+                    htmlForChat += "Chatbot:";
+                    break;
+
+                case "User":
+                    htmlForChat += "You:";
+                    break;
+
+            }
+            htmlForChat += "</strong> ";
+            htmlForChat += message;
+            htmlForChat += "</div> ";
+
+            chatLog += htmlForChat;
+        }
+    }
+
