@@ -9,7 +9,7 @@ namespace RocketHacksChatBot.Services
     {
        public async Task<AIChatResponse> AIChat (AIChatRequest request)
         {
-            var uri = new Uri("http://localhost:11434");
+            var uri = new Uri("http://172.26.152.8:11434");
             var ollama = new OllamaApiClient(uri);
             var chat = new Chat(ollama);
             ollama.SelectedModel = "gemma3:1b";
