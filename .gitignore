@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/RocketHacksChatBot/RocketHacksChatBot/Services/CallOllama.cs
+/RocketHacksChatBot/RocketHacksChatBot/Controllers/HomeController.cs
