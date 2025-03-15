@@ -18,7 +18,7 @@ namespace RocketHacksChatBot.Controllers
             AIChatRequest chatRequest = new AIChatRequest
             {
                 history = null,
-                message = "When was the University Founded?"
+                message = "When was the University of Toledo Founded?"
             };
             
             
