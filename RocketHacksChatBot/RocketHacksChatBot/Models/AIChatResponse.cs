@@ -1,6 +1,6 @@
 ﻿namespace RocketHacksChatBot.Models
 {
-    public class ChatResponse
+    public class AIChatResponse
     {
         List<ChatItem> items;
         string Response;
