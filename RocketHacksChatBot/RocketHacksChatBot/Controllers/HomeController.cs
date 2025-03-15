@@ -18,8 +18,10 @@ namespace RocketHacksChatBot.Controllers
             AIChatRequest chatRequest = new AIChatRequest
             {
                 history = null,
-                message = "test"
+                message = "When was the University Founded?"
             };
+            
+            
 
             var response = await callOllama.AIChat(chatRequest);
             return response;
