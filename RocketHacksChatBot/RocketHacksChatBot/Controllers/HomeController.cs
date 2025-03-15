@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OllamaSharp.Models.Chat;
+using RocketHacksChatBot.Models;
 using RocketHacksChatBot.Services;
 using System.Reflection.Metadata.Ecma335;
 
@@ -10,16 +11,18 @@ namespace RocketHacksChatBot.Controllers
     public class testController : Controller
     {
         [HttpGet("test")]
-        public string test()
+        public async Task<AIChatResponse> test()
         {
             CallOllama callOllama = new CallOllama();
 
-            ChatRequest chatRequest = new ChatRequest
+            AIChatRequest chatRequest = new AIChatRequest
             {
-                mess
+                history = null,
+                message = "test"
             };
 
-            callOllama.AIChat()
+            var response = await callOllama.AIChat(chatRequest);
+            return response;
         }
     }
 }
