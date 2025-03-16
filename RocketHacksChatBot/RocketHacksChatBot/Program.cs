@@ -26,6 +26,11 @@ app.UseHttpsRedirection();
 app.MapControllers();
 app.UseStaticFiles();
 app.UseAntiforgery();
+app.Use(async (context, next) => {
+    context.Response.Headers.Remove("Content-Security-Policy");
+    context.Response.Headers.Add("X-Frame-Options", "sameorigin");
+    await next.Invoke();
+});
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()

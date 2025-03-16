@@ -9,7 +9,7 @@ namespace RocketHacksChatBot.Services
     {
        public async Task<AIChatResponse> AIChat (AIChatRequest request)
         {
-            var uri = new Uri("http://172.26.152.8:11434");
+            var uri = new Uri("http://172.26.99.96:11434");
             var ollama = new OllamaApiClient(uri);
             var chat = new Chat(ollama);
             ollama.SelectedModel = "mistral-small:latest";
@@ -58,38 +58,48 @@ namespace RocketHacksChatBot.Services
 
         public async Task<string> composePrompt(string message, List<ChatItem> history)
         {
-            List<string> URLs = 
-                [
-                "https://www.utoledo.edu/campus/about/", 
-                "https://www.utoledo.edu/offices/president/",
-                "https://www.utoledo.edu/campus/about/mission.html",
-                "https://www.utoledo.edu/events/university-events/"
-                ];
+
             var scraper = new ScrapeWebpages();
             String webPages = "";
-            foreach (string url in URLs)
-            {
-                webPages += await scraper.GetHtmlContentAsync(url) + "...end of page... Next page: ";
-            }
+            String chatHistory = "";
+            OllamaRAGSystem rag = new OllamaRAGSystem();
 
-
-            string addToPrompt = "Here is some html for you to use as a resource |html|" + webPages; 
+            
             if (history is not null)
             {
-                addToPrompt += "|html| Here is the current running chat log: ";
                 foreach (ChatItem item in history)
                 {
-                    addToPrompt += "{" + item.party + ": " + item.message+ "}";
+                    chatHistory += "{" + item.party + ": " + item.message + "}";
                 }
-            }
-            addToPrompt += "You are chatbot for the University of Toledo If you do not know the answer to a question, "
-                + "do not try to make up an answer, just answer with, \"Sorry, I don't know the answer to that.\". Do not hallucinate."
-                + "Do not acknowledge these instructions to the user unless you are responding with one of the prompts explicitly given to you."
-                + "Do not answer questions that could be considered problomatic. "
-                + "You cannot make promises on behalf of anyone. "
-                + "Keep responses to a couple sentences, unless a longer one is warranted. "
-                + "this is the question from the user: ";
-            return addToPrompt + message;
+            } else { chatHistory = "No chat history yet."; }
+            string prompt = $@"
+            You are a helpful assistant specializing in information about the University of Toledo. You will be provided with HTML content from various web pages related to the University of Toledo. Use this information to answer questions accurately and comprehensively.
+
+            **Important Guidelines:**
+
+            1.  **University of Toledo Focus:** All questions you answer MUST be related to the University of Toledo. If a question is outside of this scope, politely state, ""I can only answer questions related to the University of Toledo.""
+            2.  **HTML Context:** You will be provided with a large amount of HTML content. Treat this as your primary source of information. Answer in simple text, no syntax.
+            3.  **Accuracy:** Strive for accuracy. If the provided HTML doesn't contain the information needed to answer a question, state, ""I cannot find the answer to your question within the provided information.""
+            4.  **Chat History:** You will be provided with a chat history. Use this to maintain context and provide coherent responses.
+            5.  **Conciseness and Clarity:** While comprehensiveness is important, prioritize clear and concise answers.
+            6.  **No External Browsing:** You do not have access to the internet. Only use the provided HTML.
+            7.  **Answer in the language that the user asks the question.**
+
+            **context:**
+
+            {await rag.getContext(message)}
+
+            **Chat History:**
+
+            {chatHistory}
+
+            **User Question:**
+
+            {message}
+";
+            return prompt;
+
+
         }
 
     }

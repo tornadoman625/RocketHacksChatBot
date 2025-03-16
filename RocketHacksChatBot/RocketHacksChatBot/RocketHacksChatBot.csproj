@@ -9,9 +9,18 @@
   <ItemGroup>
     <ProjectReference Include="..\RocketHacksChatBot.Client\RocketHacksChatBot.Client.csproj" />
     <PackageReference Include="HtmlAgilityPack" Version="1.12.0" />
+    <PackageReference Include="LangChain.Core" Version="0.17.0" />
+    <PackageReference Include="LangChain.Databases.Sqlite" Version="0.17.0" />
+    <PackageReference Include="LangChain.DocumentLoaders.Html" Version="0.17.0" />
+    <PackageReference Include="LangChain.Providers.Ollama" Version="0.17.0" />
+    <PackageReference Include="LangChain.Splitters.CSharp" Version="0.17.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="OllamaSharp" Version="5.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="PythonScripts\" />
   </ItemGroup>
 
 </Project>

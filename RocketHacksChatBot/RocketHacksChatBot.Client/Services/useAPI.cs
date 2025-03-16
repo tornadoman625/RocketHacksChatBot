@@ -19,7 +19,7 @@ namespace RocketHacksChatBot.Client.Services
             {
                 return null;
             }
-            var response = await client.PostAsJsonAsync<AIChatRequest>("/api/test/submitPrompt", request);
+            var response = await client.PostAsJsonAsync<AIChatRequest>("/api/chat/submitPrompt", request);
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadFromJsonAsync<AIChatResponse>();
